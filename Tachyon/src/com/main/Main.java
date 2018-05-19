@@ -52,7 +52,10 @@ public class Main extends Canvas implements Runnable {
 	}
 
 	private void tick(){}
-	private void render(){}
+	private void render(){
+		// need a buffer before pushing to screen
+		
+	}
 	
 	public static void main(String[] args) {
 		Main game = new Main();
