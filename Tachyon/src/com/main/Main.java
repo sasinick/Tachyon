@@ -1,28 +1,44 @@
 package com.main;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
 import com.main.graphics.Render;
+import com.main.graphics.Screen;
 
 public class Main extends Canvas implements Runnable {
 
 	public static int width = 300;
-	public static int height = width * 16 /9;
+	public static int height = width / 16 * 9;
 	public static int scale = 3;
 
 	private Thread thread;
 	private JFrame frame;
 	private boolean running = false;
 	private Render render;
-
+	private Screen screen;
+	
+	private BufferedImage image = new BufferedImage(width, height,
+			BufferedImage.TYPE_INT_RGB);
+	// convert the image object into array of integers
+	// assign colors to integers to color each pixel
+	// get the raster which is bunch of pixels
+	private int[] pixels = ((DataBufferInt)image.getRaster().
+			getDataBuffer()).getData();
+	
 	public Main() {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 		frame = new JFrame();
-		render = new Render(width, height);
+		//render = new Render(width, height);
+		screen = new Screen(width,height);
 	}
 
 	public synchronized void start() {
@@ -45,16 +61,39 @@ public class Main extends Canvas implements Runnable {
 
 	public void run() {
 		while (running) {
-			System.out.println("Running Tachyon....");
+			//System.out.println("Running Tachyon....");
 			tick();
 			render();
 		}
 	}
 
-	private void tick(){}
-	private void render(){
-		// need a buffer before pushing to screen
+	private void tick(){
 		
+	}
+	
+	private void render(){
+		
+		// need a buffer before pushing to screen
+		BufferStrategy bs = getBufferStrategy();
+		if (bs == null){
+			createBufferStrategy(3);
+			return;
+		}
+		
+		screen.clear();
+		screen.render();
+		
+		for(int i=0;i<pixels.length; i++){
+			pixels[i] = screen.pixels[i];
+		}
+		
+		// the link between buffer and graphics
+		Graphics graphics = bs.getDrawGraphics();
+		graphics.setColor(Color.BLACK);
+		graphics.fillRect(0, 0, getWidth(), getHeight());
+		graphics.drawImage(image, 0, 0, getWidth(), getHeight(),null);
+		graphics.dispose();
+		bs.show(); //show the next buffer in line
 	}
 	
 	public static void main(String[] args) {

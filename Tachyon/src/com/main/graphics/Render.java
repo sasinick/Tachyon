@@ -10,4 +10,6 @@ public class Render {
 		this.height = height;
 		pixels = new int [width*height];
 	}
+	
+
 }
