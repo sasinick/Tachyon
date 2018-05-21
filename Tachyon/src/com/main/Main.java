@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 
 import com.main.graphics.Render;
 import com.main.graphics.Screen;
+import com.main.input.Keyboard;
 
 public class Main extends Canvas implements Runnable {
 
@@ -24,6 +25,8 @@ public class Main extends Canvas implements Runnable {
 	private boolean running = false;
 	private Render render;
 	private Screen screen;
+	private Keyboard key;
+	int x =0, y = 0;
 	
 	private BufferedImage image = new BufferedImage(width, height,
 			BufferedImage.TYPE_INT_RGB);
@@ -39,6 +42,8 @@ public class Main extends Canvas implements Runnable {
 		frame = new JFrame();
 		//render = new Render(width, height);
 		screen = new Screen(width,height);
+		key = new Keyboard();
+		addKeyListener(key);
 	}
 
 	public synchronized void start() {
@@ -62,13 +67,19 @@ public class Main extends Canvas implements Runnable {
 	public void run() {
 		while (running) {
 			//System.out.println("Running Tachyon....");
-			tick();
+			update();
 			render();
 		}
 	}
 
-	private void tick(){
-		
+	private void update(){
+		key.update();
+		if (key.up)y--;
+		if (key.down)y++;
+		if (key.left)x--;
+		if (key.right)x++;
+		//x++;
+		//y++;
 	}
 	
 	private void render(){
@@ -81,7 +92,7 @@ public class Main extends Canvas implements Runnable {
 		}
 		
 		screen.clear();
-		screen.render();
+		screen.render(x,y);
 		
 		for(int i=0;i<pixels.length; i++){
 			pixels[i] = screen.pixels[i];
