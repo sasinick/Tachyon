@@ -65,6 +65,7 @@ public class Main extends Canvas implements Runnable {
 	}
 
 	public void run() {
+		requestFocus();
 		while (running) {
 			//System.out.println("Running Tachyon....");
 			update();
