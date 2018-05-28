@@ -112,14 +112,10 @@ public class Main extends Canvas implements Runnable {
 		Main game = new Main();
 		game.frame.setResizable(false);
 		game.frame.setTitle("Tachyon");
-		// adding canvas within frame or filling our frame with something, our
-		// game
+		// adding canvas within frame or filling our frame with something, our game
 		game.frame.add(game);
 		game.frame.pack();
-		game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close the
-																	// process
-																	// when X is
-																	// pressed
+		game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		game.frame.setLocationRelativeTo(null);
 		game.frame.setVisible(true);
 

@@ -12,6 +12,7 @@ public class Sprite {
 	
 	// using sprites (this code comes later)
 	public static Sprite grass = new Sprite(16, 0, 0, SpriteSheet.tiles);
+	public static Sprite voidSprite = new Sprite(16, 0);
 	
 	
 	
@@ -29,7 +30,19 @@ public class Sprite {
 		load();
 	}
 	
+	// sprite for voidtile
+	// voidtile: a tile with a color, maybe black to represent nothing
+	public Sprite(int size, int color){
+		SIZE = size;
+		pixels = new int[SIZE*SIZE];
+		setColor(color);
+	}
 	
+	private void setColor(int color){
+		for(int i = 0; i<SIZE*SIZE ;i++){
+			pixels[i] = color;
+		}
+	}
 	
 	// image has already been loaded in the pixels array of SpriteSheet class.by load() method 
 	// 1. here we have to get the pixels array from spritesheet and 

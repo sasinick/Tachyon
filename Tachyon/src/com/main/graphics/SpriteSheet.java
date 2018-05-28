@@ -36,12 +36,14 @@ public class SpriteSheet {
 			int w = image.getWidth();
 			int h = image.getHeight();
 			// this is how we do that
+			
 			// explaining the params below::
 			// start scanning the image from 0,0 till w,h (covers entire image)
 			// where to put it, inside pixels array
 			// offset to start scan is 0
-			// scan horizontaslly, so scansize will be width, hence w
+			// scan horizontally, so scansize will be width, hence w
 			image.getRGB(0, 0, w, h, pixels, 0, w);
+			// above line loads the image into pixels array
 			
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -2,18 +2,22 @@ package com.main.graphics;
 
 import java.util.Random;
 
+import com.main.level.tile.Tile;
+
 // this class fills pixels defined in Main with color (or SPRITES)
 // so last line can be changed to load colors or sprites
 // map size is 64 and sprite size is 16, which is tile size
 public class Screen {
 
-	private int width, height;
+	public int width, height;
 	public int[] pixels; 
 	// MAP ! = SPRITESHEET
 	// TILES == SPRITES
 	public final int MAP_SIZE = 64;
 	public final int MAP_SIZE_MASK = MAP_SIZE - 1;
 	public int[] tiles = new int[MAP_SIZE * MAP_SIZE];
+	
+	public int xOffset, yOffset;
 	
 	private Random random= new Random();
 	
@@ -24,6 +28,7 @@ public class Screen {
 		this.height = height;
 		pixels = new int[width*height];
 		
+		// assigning random values to "an array called tiles" which is 64*64
 		for(int i=0; i< MAP_SIZE * MAP_SIZE; i++){
 			tiles[i] = random.nextInt(0xffffff);
 		}
@@ -56,6 +61,28 @@ public class Screen {
 			}
 		}
 	}
+	
+	
+	public void renderTile(int xp, int yp, Tile tile){
+		// map should go right when player goes left
+		xp -= xOffset;
+		yp -= yOffset;
+		for(int y = 0; y < tile.sprite.SIZE; y++){
+			int ya = y + yp;
+			for(int x = 0; x < tile.sprite.SIZE; x++){
+				int xa = x + xp;
+				if (xa <0 || xa >= width || ya < 0 || ya >= height) break;
+				pixels [xa + ya * width] = tile.sprite.pixels[x + y * tile.sprite.SIZE];
+			}
+		}
+	}
+	
+	public void setOffset(int xOffset, int yOffset){
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
+	}
+	
+	public void renderMob(int xp, int yp){}
 	
 	
 	public void clear(){

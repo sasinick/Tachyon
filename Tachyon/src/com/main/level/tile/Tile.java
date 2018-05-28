@@ -16,9 +16,12 @@ public class Tile {
 	public int x, y;
 	public Sprite sprite;
 	
+	// grass tile will use the grass sprite.
 	// a static tile, there will be only one grass tile
-	// always has same parameters like not solid
+	// always has same parameters like not solid.
+	// Grass creation is only once, hence static
 	public static Tile grass = new GrassTile(Sprite.grass);
+	public static Tile voidTile = new VoidTile(Sprite.voidSprite);
 	
 	// tile has to have a sprite, can live without
 	public Tile(Sprite sprite){
